@@ -14,7 +14,6 @@
     "run": "index.js"
   },
   "dependencies": {
-    "airbrake": "^0.3.8",
     "aws_message_reader": "^2.0.0",
     "nodeify_lambda_context": "^1.0.1"
   },
