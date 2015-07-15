@@ -1,3 +1,6 @@
+[![Build Status](https://semaphoreci.com/api/v1/projects/e6e739a6-20de-4496-9af2-c28a43b3789d/483495/badge.svg)](https://semaphoreci.com/lp/aws_lambda_handler)      
+
+
 Aws Lambda Handler
 ====================
 
