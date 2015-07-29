@@ -19,6 +19,7 @@ describe('index', function(){
     snsEvent = {
       'Records':[
         {
+          'EventSource': 'aws:sns',
           'Sns':{
             'Message': JSON.stringify(event)
           }
