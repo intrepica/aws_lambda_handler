@@ -14,7 +14,7 @@
     "run": "index.js"
   },
   "dependencies": {
-    "aws_message_reader": "^3.0.0",
+    "aws_message_reader": "^3.0.1",
     "nodeify_lambda_context": "^1.0.1"
   },
   "devDependencies": {
