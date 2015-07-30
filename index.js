@@ -11,8 +11,9 @@ module.exports = function(handler, errorHandler) {
 			handler(event, cb);
 		}, onComplete);
 
-		function onComplete(err) {
+		function onComplete(err) {			
 			if (err && errorHandler) {
+				err.lambda_event = message;
 				return errorHandler(err, callback);
 			}
 			callback(err);
