@@ -6,7 +6,9 @@ Aws Lambda Handler
 
 About
 --------------
-Returns a lambda handler that when invoked with a Sns event and lambda context object, it will invoke the `eventHandler` with a parsed json message and a node callback. The `eventHandler` callback is an async.each `iterator` function. Each Record in the Sns will invoke the `eventHandler` until complete. If `eventHandler` calls back with an error and there is an `errorHandler` defined it will call it with the error and the callback.
+Returns a lambda handler that when invoked with a Sns/dynamodb event and lambda context object, it will invoke the `eventHandler` with a parsed json message and a node callback. The `eventHandler` callback is an async.each `iterator` function. Each Record in the Sns will invoke the `eventHandler` until complete. If `eventHandler` calls back with an error and there is an `errorHandler` defined it will call it with the error and the callback.
+
+See https://www.npmjs.com/package/aws_message_reader for more info on message parsing.
 
 Example
 --------------
