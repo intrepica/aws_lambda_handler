@@ -7,7 +7,7 @@ var lambda = require('../');
 var mock = sinon.mock;
 var stub = sinon.stub;
 
-describe('index', function(){
+describe('aws_lambda_handler', function(){
   var snsEvent, event, error;
         
   beforeEach(function() {
@@ -41,13 +41,16 @@ describe('index', function(){
     };    
   }
 
-  describe('no errorHandler', function() {
+  describe('with no errorHandler', function() {
     describe('when things are rosy', function() {
       it('calls the lambda handler for each message', function(done) {
         var callback = mock();
         callback.withArgs(event).yields(null);
         var handler = lambda(callback);
-        handler(snsEvent, context(done));
+        handler(snsEvent, context(function() {
+          callback.verify();
+          done();
+        }));
       }); 
     });
 
@@ -62,28 +65,53 @@ describe('index', function(){
         }));
       }); 
     });
+
+    describe('when unhandledException', function() {
+      it('calls the context.fail callback', function(done) {
+        var callback = stub();        
+        var handler = lambda(callback);
+        handler({}, context(function(err) {
+          expect(err).to.eql(error);
+          done();
+        }));
+      }); 
+    });
   });
 
 
   describe('has errorHandler', function() {
-    var errorHandler;
+    var errorHandler, callback;
 
     beforeEach(function() {
-      errorHandler = mock();    
+      errorHandler = mock();          
+      callback = stub();
     });
     
     describe('when handler invokes callback with an error', function() {
-      it('calls the errorHandler with the error and the callback', function(done) {        
-        var callback = stub();
-        callback.yields(error);
+      it('invokes errorHandler with the error and the callback', function(done) {
         errorHandler.once().withArgs(error).yields(error);
+        callback.yields(error);        
         var handler = lambda(callback, errorHandler);
         handler(snsEvent, context(function(err) {        
           expect(err).to.eql(error);
+          errorHandler.verify();
           done();                  
+        }));
+      });     
+    });
+
+    describe('when unhandledException', function() {
+      it('invokes errorHandler with the error and the callback', function(done) {        
+        errorHandler.once().yields(error);
+        var handler = lambda(callback, errorHandler);
+        handler({}, context(function(err) {
+          expect(err).to.eql(error);
+          errorHandler.verify(); 
+          done();
         }));
       }); 
     });
   });
 
 });
+
