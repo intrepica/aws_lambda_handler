@@ -78,7 +78,6 @@ describe('aws_lambda_handler', function(){
     });
   });
 
-
   describe('has errorHandler', function() {
     var errorHandler, callback;
 
@@ -93,11 +92,33 @@ describe('aws_lambda_handler', function(){
         callback.yields(error);        
         var handler = lambda(callback, errorHandler);
         handler(snsEvent, context(function(err) {        
-          expect(err).to.eql(error);
+          expect(err).to.eql(error);          
           errorHandler.verify();
           done();                  
         }));
-      });     
+      });   
+
+      it('attaches stringified lambda_event to error object', function(done) {
+        errorHandler = stub();
+        errorHandler.yields(error);
+        callback.yields(error);
+        var handler = lambda(callback, errorHandler);
+        handler(snsEvent, context(function(err) {        
+          expect(err.lambda_event).to.eql(JSON.stringify(snsEvent));          
+          done();                  
+        }));
+      });
+
+      it('attaches current_record to error object', function(done) {
+        errorHandler = stub();
+        errorHandler.yields(error);
+        callback.yields(error);
+        var handler = lambda(callback, errorHandler);
+        handler(snsEvent, context(function(err) {        
+          expect(err.current_record).to.eql(event);          
+          done();                  
+        }));
+      });      
     });
 
     describe('when unhandledException', function() {

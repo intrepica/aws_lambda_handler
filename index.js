@@ -8,23 +8,21 @@ module.exports = function(handler, errorHandler) {
     var callback = nodeifyLambda(context);  
 
     try {      
-      messageReader(message).each(function(event, cb) {
-        handler(event, cb);
+      messageReader(message).each(function(record, cb) {
+        handler(record, function(err) {
+          if (err) {
+            err.current_record = record;
+            return cb(err);
+          }
+          cb();
+        });
       }, onComplete);    
     } catch(err) {
-      callbackError(err);
+      onComplete(err);
     }
 
-    function onComplete(err) {      
+    function onComplete(err) {
       if (err && errorHandler) {
-        return callbackError(err);
-      }
-      callback(err);
-    }
-
-    function callbackError(err) {
-      if (errorHandler) {
-        err.lambda_event = message;
         return errorHandler(err, callback);
       } else {
         return callback(err);
