@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "aws_message_reader": "^3.1.0",
-    "nodeify_lambda_context": "^1.0.1"
+    "nodeify_lambda_context": "^1.0.2"
   },
   "devDependencies": {
     "expect.js": "^0.3.1",

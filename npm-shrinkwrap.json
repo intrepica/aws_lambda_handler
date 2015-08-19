@@ -14,9 +14,8 @@
       }
     },
     "nodeify_lambda_context": {
-      "version": "1.0.1",
-      "from": "nodeify_lambda_context@>=1.0.1 <2.0.0",
-      "resolved": "https://registry.npmjs.org/nodeify_lambda_context/-/nodeify_lambda_context-1.0.1.tgz"
+      "version": "1.0.2",
+      "from": "nodeify_lambda_context@1.0.2"
     }
   }
 }
