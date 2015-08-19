@@ -65,17 +65,6 @@ describe('aws_lambda_handler', function(){
         }));
       }); 
     });
-
-    describe('when unhandledException', function() {
-      it('calls the context.fail callback', function(done) {
-        var callback = stub();        
-        var handler = lambda(callback);
-        handler({}, context(function(err) {
-          expect(err).to.eql(error);
-          done();
-        }));
-      }); 
-    });
   });
 
   describe('has errorHandler', function() {
@@ -119,18 +108,6 @@ describe('aws_lambda_handler', function(){
           done();                  
         }));
       });      
-    });
-
-    describe('when unhandledException', function() {
-      it('invokes errorHandler with the error and the callback', function(done) {        
-        errorHandler.once().yields(error);
-        var handler = lambda(callback, errorHandler);
-        handler({}, context(function(err) {
-          expect(err).to.eql(error);
-          errorHandler.verify(); 
-          done();
-        }));
-      }); 
     });
   });
 
