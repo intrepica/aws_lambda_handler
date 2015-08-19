@@ -1,6 +1,6 @@
 {
   "name": "aws_lambda_handler",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "dependencies": {
     "aws_message_reader": {
       "version": "3.1.0",
