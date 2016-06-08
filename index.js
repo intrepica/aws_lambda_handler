@@ -3,26 +3,26 @@
 var messageReader = require('aws_message_reader');
 var nodeifyLambda = require('nodeify_lambda_context');
 
-module.exports = function(handler, errorHandler) { 
+module.exports = function(handler, errorHandler) {
   return function(message, context) {
-    var callback = nodeifyLambda(context);  
+    var callback = nodeifyLambda(context);
 
     messageReader(message).each(function(record, cb) {
-      handler(record, function(err) {
+      handler(record, function(err, result) {
         if (err) {
           err.current_record = record;
           return cb(err);
         }
-        cb();
+        cb(null, result);
       });
-    }, onComplete);    
+    }, onComplete);
 
-    function onComplete(err) {
+    function onComplete(err, result) {
       if (err && errorHandler) {
         return errorHandler(err, callback);
       } else {
-        return callback(err);
+        return callback(err, result);
       }
     }
-  };    
+  };
 };
