@@ -1,12 +1,9 @@
 'use strict';
 
 var messageReader = require('aws_message_reader');
-var nodeifyLambda = require('nodeify_lambda_context');
 
 module.exports = function(handler, errorHandler) {
   return function(message, context) {
-    var callback = nodeifyLambda(context);
-
     messageReader(message).each(function(record, cb) {
       handler(record, function(err, result) {
         if (err) {
@@ -19,9 +16,9 @@ module.exports = function(handler, errorHandler) {
 
     function onComplete(err, result) {
       if (err && errorHandler) {
-        return errorHandler(err, callback);
+        return errorHandler(err, context.done);
       } else {
-        return callback(err, result);
+        return context.done(err, result);
       }
     }
   };

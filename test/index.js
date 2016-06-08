@@ -33,11 +33,8 @@ describe('aws_lambda_handler', function() {
 
   function context(callback) {
     return {
-      succeed: function(data) {
-        callback(null, data);
-      },
-      fail: function(err) {
-        callback(err);
+      done: function(err, data) {
+        callback(err, data);
       }
     };
   }
