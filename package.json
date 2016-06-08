@@ -1,6 +1,6 @@
 {
   "name": "aws_lambda_handler",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "",
   "main": "index.js",
   "author": "Tim Fairbrother <tdfairbrother@gmail.com>",
